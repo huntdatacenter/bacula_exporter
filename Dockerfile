@@ -1,4 +1,4 @@
-FROM golang:1.13 as builder
+FROM golang:1.26 as builder
 RUN apt-get update && \
     apt-get install -y upx
 WORKDIR /go/src/github.com/funbox/bacula_exporter
