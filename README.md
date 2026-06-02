@@ -196,6 +196,38 @@ If you like Bacula Exporter, please give it a star. This will help more people k
 
 Please feel free to send your [pull requests](https://github.com/funbox/bacula_exporter/pulls).
 
+## Releasing a new version
+
+### 1. Make changes
+
+Commit and push to master. The workflow automatically builds and pushes `ghcr.io/huntdatacenter/bacula_exporter:latest`.
+
+### 2. Tag the release
+
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
+
+The workflow triggers on the tag and builds the image tagged with `latest`, `v1.2.0`, and the commit SHA.
+
+### 3. Verify
+
+Check the Packages tab on the GitHub repository page, or pull directly:
+
+```bash
+docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.0
+```
+
+### 4. Deploy
+
+Update the Ansible variable to pin to the new version:
+
+```yaml
+bacula_exporter_version: "v1.2.0"
+```
+
+
 ## License
 
 MIT
