@@ -10,7 +10,7 @@ func (db *DB) GetLatestJobs() ([]*BaculaJob, error) {
           SELECT
                 j.Name as name,
                 p.Name as pool,
-                j.JobId as jobid,
+                j.JobId::text as jobid,
                 j.Level as level,
                 j.JobStatus as jobstatus,
                 coalesce(extract(epoch from j.SchedTime), 0)::integer as SchedTime,
