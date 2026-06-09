@@ -119,8 +119,8 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(job.JobFiles),
 			job.Name,
-			job.JobId,
 			job.Pool,
+			job.JobId,
 			job.Level,
 			job.Status,
 		)
@@ -129,8 +129,8 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(job.JobBytes),
 			job.Name,
-			job.JobId,
 			job.Pool,
+			job.JobId,
 			job.Level,
 			job.Status,
 		)
@@ -139,8 +139,8 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.CounterValue,
 			float64(job.SchedTime),
 			job.Name,
-			job.JobId,
 			job.Pool,
+			job.JobId,
 			job.Level,
 			job.Status,
 		)
@@ -149,8 +149,8 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.CounterValue,
 			float64(job.StartTime),
 			job.Name,
-			job.JobId,
 			job.Pool,
+			job.JobId,
 			job.Level,
 			job.Status,
 		)
@@ -159,8 +159,8 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.CounterValue,
 			float64(job.EndTime),
 			job.Name,
-			job.JobId,
 			job.Pool,
+			job.JobId,
 			job.Level,
 			job.Status,
 		)
