@@ -95,14 +95,14 @@ make docker
 
 ### Binary
 
-```
+```shell
 bacula_exporter -c /path/to/bacula_exporter.knf
 ```
 
 ### Docker image
 
 ```shell
-docker pull funbox/bacula_exporter:1.1.0
+docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.1
 ```
 
 ## Usage
@@ -152,7 +152,7 @@ Options
   port: 5432
 
   # SSL mode
-  sslmode: disable
+  sslmode: require
 
 [log]
 
@@ -179,7 +179,7 @@ Options
 Run development environment.
 
 ```shell
-docker-compose up -d
+docker compose up -d
 ```
 
 Open Grafana (http://127.0.0.1:3000).
@@ -205,18 +205,18 @@ Commit and push to master. The workflow automatically builds and pushes `ghcr.io
 ### 2. Tag the release
 
 ```bash
-git tag v1.2.0
-git push origin v1.2.0
+git tag v1.2.2
+git push origin v1.2.2
 ```
 
-The workflow triggers on the tag and builds the image tagged with `latest`, `v1.2.0`, and the commit SHA.
+The workflow triggers on the tag and builds the image tagged with `latest`, `v1.2.2`, and the commit SHA.
 
 ### 3. Verify
 
 Check the Packages tab on the GitHub repository page, or pull directly:
 
 ```bash
-docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.0
+docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.2
 ```
 
 ### 4. Deploy
@@ -224,7 +224,7 @@ docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.0
 Update the Ansible variable to pin to the new version:
 
 ```yaml
-bacula_exporter_version: "v1.2.0"
+bacula_exporter_version: "v1.2.2"
 ```
 
 

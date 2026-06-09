@@ -12,8 +12,8 @@
 
 ################################################################################
 
-DOCKER_IMAGE = funbox/bacula_exporter
-VERSION := 1.1.0
+DOCKER_IMAGE = huntdatacenter/bacula_exporter
+VERSION := 1.2.2
 BUMPVERSION_PART ?= patch
 
 ################################################################################

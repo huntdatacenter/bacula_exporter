@@ -1,10 +1,9 @@
-module bacula_exporter
+module github.com/huntdatacenter/bacula_exporter
 
-go 1.17
+go 1.26
 
 require (
 	github.com/avast/retry-go v3.0.0+incompatible
-	github.com/funbox/bacula_exporter v0.0.0-20201228103249-0f665fc474eb
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/lib/pq v1.10.4
 	github.com/prometheus/client_golang v1.12.1

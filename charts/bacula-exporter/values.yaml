@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: funbox/bacula_exporter
-  tag: 1.0.1
+  repository: huntdatacenter/bacula_exporter
+  tag: 1.2.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
