@@ -20,6 +20,13 @@ type BaculaJobSummary struct {
 	TotalJobFiles uint64 `db:"totaljobfiles"`
 }
 
+type BaculaStoredData struct {
+	Name        string `db:"name"`
+	Pool        string `db:"pool"`
+	StoredBytes uint64 `db:"stored_bytes"`
+	StoredFiles uint64 `db:"stored_files"`
+}
+
 type BaculaSummary struct {
 	ScheduledJobs uint32 `db:"scheduledjobs"`
 }

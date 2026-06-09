@@ -21,6 +21,8 @@ type baculaMetrics struct {
 	LatestJobEndTime     *prometheus.Desc
 	SummaryJobTotalFiles *prometheus.Desc
 	SummaryJobTotalBytes *prometheus.Desc
+	StoredBytes          *prometheus.Desc
+	StoredFiles          *prometheus.Desc
 }
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -74,6 +76,14 @@ func baculaCollector() *baculaMetrics {
 			"Total bytes saved for server during all backups for client combined",
 			[]string{"name", "level"}, nil,
 		),
+		StoredBytes: prometheus.NewDesc("bacula_stored_bytes_total",
+				"Total bytes currently stored per job name and pool (excludes recycled/purged volumes)",
+				[]string{"name", "pool"}, nil,
+		),
+		StoredFiles: prometheus.NewDesc("bacula_stored_files_total",
+				"Total files currently stored per job name and pool (excludes recycled/purged volumes)",
+				[]string{"name", "pool"}, nil,
+		),
 	}
 }
 
@@ -89,6 +99,8 @@ func (collector *baculaMetrics) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.LatestJobEndTime
 	ch <- collector.SummaryJobTotalFiles
 	ch <- collector.SummaryJobTotalBytes
+	ch <- collector.StoredBytes
+	ch <- collector.StoredFiles
 }
 
 // Collect implements Collect() method using by the Prometheus registry
@@ -165,6 +177,30 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			float64(job.TotalJobBytes),
 			job.Name,
 			job.Level,
+		)
+	}
+
+	storedData, err := env.DB.GetStoredData()
+
+	if err != nil {
+		log.Crit(err.Error())
+		return
+	}
+
+	for _, item := range storedData {
+		ch <- prometheus.MustNewConstMetric(
+			collector.StoredBytes,
+			prometheus.GaugeValue,
+			float64(item.StoredBytes),
+			item.Name,
+			item.Pool,
+		)
+		ch <- prometheus.MustNewConstMetric(
+			collector.StoredFiles,
+			prometheus.GaugeValue,
+			float64(item.StoredFiles),
+			item.Name,
+			item.Pool,
 		)
 	}
 }

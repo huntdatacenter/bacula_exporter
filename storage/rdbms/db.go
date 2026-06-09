@@ -22,6 +22,7 @@ const (
 type Datastore interface {
 	GetLatestJobs() ([]*BaculaJob, error)
 	GetJobsSummary() ([]*BaculaJobSummary, error)
+	GetStoredData() ([]*BaculaStoredData, error)
 }
 
 type DB struct {
