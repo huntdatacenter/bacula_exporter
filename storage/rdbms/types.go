@@ -4,6 +4,8 @@ package rdbms
 
 type BaculaJob struct {
 	Name      string `db:"name"`
+	Pool      string `db:"pool"`
+	JobId     string `db:"jobid"`
 	Level     string `db:"level"`
 	Status    string `db:"jobstatus"`
 	SchedTime uint32 `db:"schedtime"`
@@ -15,9 +17,17 @@ type BaculaJob struct {
 
 type BaculaJobSummary struct {
 	Name          string `db:"name"`
+	Pool          string `db:"pool"`
 	Level         string `db:"level"`
 	TotalJobBytes uint64 `db:"totaljobbytes"`
 	TotalJobFiles uint64 `db:"totaljobfiles"`
+}
+
+type BaculaStoredData struct {
+	Name        string `db:"name"`
+	Pool        string `db:"pool"`
+	StoredBytes uint64 `db:"stored_bytes"`
+	StoredFiles uint64 `db:"stored_files"`
 }
 
 type BaculaSummary struct {

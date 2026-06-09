@@ -56,7 +56,7 @@ Version:         1.0.0
 Release:         0%{?dist}
 Group:           Applications/System
 License:         MIT
-URL:             https://github.com/funbox/bacula_exporter
+URL:             https://github.com/huntdatacenter/bacula_exporter
 
 Source0:         https://github.com/funbox/%{pkg_name}/archive/v%{version}.tar.gz
 

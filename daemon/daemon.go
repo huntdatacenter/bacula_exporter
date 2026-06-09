@@ -16,7 +16,7 @@ import (
 	"pkg.re/essentialkaos/ek.v12/signal"
 	"pkg.re/essentialkaos/ek.v12/usage"
 
-	rdbms "github.com/funbox/bacula_exporter/storage/rdbms"
+	rdbms "github.com/huntdatacenter/bacula_exporter/storage/rdbms"
 	knfv "pkg.re/essentialkaos/ek.v12/knf/validators"
 	knff "pkg.re/essentialkaos/ek.v12/knf/validators/fs"
 
@@ -28,7 +28,7 @@ import (
 // Basic info
 const (
 	APP  = "bacula_exporter"
-	VER  = "1.1.0"
+	VER  = "1.2.2"
 	DESC = "Prometheus Exporter for Bacula"
 )
 
