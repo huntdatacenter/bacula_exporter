@@ -8,22 +8,24 @@ func (db *DB) GetLatestJobs() ([]*BaculaJob, error) {
 
         sqlState := `
           SELECT
-                Name,
-                Level,
-                JobId,
-                JobStatus,
-                coalesce(extract(epoch from SchedTime), 0)::integer as SchedTime,
-                coalesce(extract(epoch from StartTime), 0)::integer as StartTime,
-                coalesce(extract(epoch from EndTime), 0)::integer as EndTime,
-                JobBytes::bigint,
-                JobFiles::bigint
+                j.Name as name,
+                p.Name as pool,
+                j.Level as level,
+                j.JobId as jobid,
+                j.JobStatus as jobstatus,
+                coalesce(extract(epoch from j.SchedTime), 0)::integer as SchedTime,
+                coalesce(extract(epoch from j.StartTime), 0)::integer as StartTime,
+                coalesce(extract(epoch from j.EndTime), 0)::integer as EndTime,
+                j.JobBytes::bigint as jobbytes,
+                j.JobFiles::bigint as jobfiles
           FROM
-                Job
+                Job j
+                JOIN Pool p ON j.PoolId = p.PoolId
           WHERE
-                Type = 'B'
-                AND StartTime > NOW() - INTERVAL '30 days'
+                j.Type = 'B'
+                AND j.StartTime > NOW() - INTERVAL '30 days'
           ORDER BY
-                JobId`
+                j.JobId`
 
         err := db.Select(&baculaJobs, sqlState)
 
@@ -69,14 +71,16 @@ func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
 
         sqlState := `
           SELECT
-                Name,
-                Level,
-                SUM(JobBytes)::bigint as TotalJobBytes,
-                SUM(JobFiles)::bigint as TotalJobFiles
+                j.Name as name,
+                p.Name as pool,
+                j.Level as level,
+                SUM(j.JobBytes)::bigint as TotalJobBytes,
+                SUM(j.JobFiles)::bigint as TotalJobFiles
           FROM
-                Job
+                Job j
+                JOIN Pool p ON j.PoolId = p.PoolId
           WHERE
-                Name IN (
+                j.Name IN (
                       SELECT DISTINCT
                             Name
                       FROM
@@ -85,8 +89,7 @@ func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
                             SchedTime::date = DATE(NOW())
                 )
           GROUP BY
-                Name,
-                Level`
+                j.Name, p.Name, j.Level`
 
         err := db.Select(&jobsSummary, sqlState)
 
