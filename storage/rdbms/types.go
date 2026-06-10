@@ -30,6 +30,11 @@ type BaculaStoredData struct {
 	StoredFiles uint64 `db:"stored_files"`
 }
 
+type BaculaPoolTapes struct {
+	Pool           string `db:"pool"`
+	AvailableTapes uint64 `db:"available_tapes"`
+}
+
 type BaculaSummary struct {
 	ScheduledJobs uint32 `db:"scheduledjobs"`
 }

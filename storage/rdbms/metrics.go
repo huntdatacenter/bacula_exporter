@@ -65,6 +65,30 @@ func (db *DB) GetStoredData() ([]*BaculaStoredData, error) {
         return storedData, err
 }
 
+// GetAvailableTapes returns the number of available tapes (volumes) per pool.
+// A tape is considered available when it is enabled and can still accept data
+// (Append) or can be reused (Purged, Recycle).
+func (db *DB) GetAvailableTapes() ([]*BaculaPoolTapes, error) {
+        poolTapes := make([]*BaculaPoolTapes, 0)
+
+        sqlState := `
+          SELECT
+                p.Name as pool,
+                COUNT(m.MediaId)::bigint as available_tapes
+          FROM
+                Media m
+                JOIN Pool p ON m.PoolId = p.PoolId
+          WHERE
+                m.Enabled = 1
+                AND m.VolStatus IN ('Append', 'Purged', 'Recycle')
+          GROUP BY
+                p.Name`
+
+        err := db.Select(&poolTapes, sqlState)
+
+        return poolTapes, err
+}
+
 // GetJobsSummary return summary of all jobs
 func (db *DB) GetJobsSummary() ([]*BaculaJobSummary, error) {
         jobsSummary := make([]*BaculaJobSummary, 0)

@@ -76,6 +76,22 @@ bacula_summary_job_files_total{level="F",name="app1-job"} 10140
 bacula_summary_job_files_total{level="I",name="app1-job"} 348
 ```
 
+### Pool tapes
+
+**Metrics details**
+
+| Name                             | Exposed informations                                                  |
+| -------------------------------- | --------------------------------------------------------------------- |
+| `bacula_pool_available_tapes`    | Total number of available tapes (enabled volumes with Append, Purged or Recycle status) per pool |
+
+**Metrics output example**
+
+```txt
+# TYPE bacula_pool_available_tapes gauge
+bacula_pool_available_tapes{pool="Full"} 12
+bacula_pool_available_tapes{pool="Incremental"} 5
+```
+
 ## Build
 
 ### From the source code
@@ -205,18 +221,18 @@ Commit and push to master. The workflow automatically builds and pushes `ghcr.io
 ### 2. Tag the release
 
 ```bash
-git tag v1.2.2
-git push origin v1.2.2
+git tag v1.2.3
+git push origin v1.2.3
 ```
 
-The workflow triggers on the tag and builds the image tagged with `latest`, `v1.2.2`, and the commit SHA.
+The workflow triggers on the tag and builds the image tagged with `latest`, `v1.2.3`, and the commit SHA.
 
 ### 3. Verify
 
 Check the Packages tab on the GitHub repository page, or pull directly:
 
 ```bash
-docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.2
+docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.3
 ```
 
 ### 4. Deploy
@@ -224,7 +240,7 @@ docker pull ghcr.io/huntdatacenter/bacula_exporter:v1.2.2
 Update the Ansible variable to pin to the new version:
 
 ```yaml
-bacula_exporter_version: "v1.2.2"
+bacula_exporter_version: "v1.2.3"
 ```
 
 
