@@ -2,7 +2,7 @@ name: docker
 
 on:
   push:
-    branches: [master]
+    tags: ['v*']
 
 env:
   REGISTRY: ghcr.io
@@ -33,6 +33,6 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          push: false
+          push: true
           tags: ghcr.io/huntdatacenter/bacula_exporter:${{ github.ref_name }}
 
