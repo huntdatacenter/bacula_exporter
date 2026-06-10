@@ -23,6 +23,7 @@ type Datastore interface {
 	GetLatestJobs() ([]*BaculaJob, error)
 	GetJobsSummary() ([]*BaculaJobSummary, error)
 	GetStoredData() ([]*BaculaStoredData, error)
+	GetAvailableTapes() ([]*BaculaPoolTapes, error)
 }
 
 type DB struct {

@@ -23,6 +23,7 @@ type baculaMetrics struct {
 	SummaryJobTotalBytes *prometheus.Desc
 	StoredBytes          *prometheus.Desc
 	StoredFiles          *prometheus.Desc
+	PoolAvailableTapes   *prometheus.Desc
 }
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -84,6 +85,10 @@ func baculaCollector() *baculaMetrics {
 				"Total files currently stored per job name and pool (excludes recycled/purged volumes)",
 				[]string{"name", "pool"}, nil,
 		),
+		PoolAvailableTapes: prometheus.NewDesc("bacula_pool_available_tapes",
+				"Total number of available tapes (enabled volumes with Append, Purged or Recycle status) per pool",
+				[]string{"pool"}, nil,
+		),
 	}
 }
 
@@ -101,6 +106,7 @@ func (collector *baculaMetrics) Describe(ch chan<- *prometheus.Desc) {
 	ch <- collector.SummaryJobTotalBytes
 	ch <- collector.StoredBytes
 	ch <- collector.StoredFiles
+	ch <- collector.PoolAvailableTapes
 }
 
 // Collect implements Collect() method using by the Prometheus registry
@@ -212,6 +218,22 @@ func (collector *baculaMetrics) Collect(ch chan<- prometheus.Metric) {
 			prometheus.GaugeValue,
 			float64(item.StoredFiles),
 			item.Name,
+			item.Pool,
+		)
+	}
+
+	availableTapes, err := env.DB.GetAvailableTapes()
+
+	if err != nil {
+		log.Crit(err.Error())
+		return
+	}
+
+	for _, item := range availableTapes {
+		ch <- prometheus.MustNewConstMetric(
+			collector.PoolAvailableTapes,
+			prometheus.GaugeValue,
+			float64(item.AvailableTapes),
 			item.Pool,
 		)
 	}
